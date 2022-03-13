@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Hello world</title>
+		<title>Solar System - CG UFFS</title>
 		<style>
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
@@ -8,16 +8,79 @@
 	</head>
 	<body>
 		<script src="../../libs/three.js-r110/build/three.min.js"></script>
+    <script src="../../libs/three.js-r110/examples/js/controls/OrbitControls.js"></script> <!-- camera control-->
 		<script>
-			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-			var renderer = new THREE.WebGLRenderer();
+			const renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
 
-			var animate = function() {
+      const controls = new THREE.OrbitControls( camera, renderer.domElement ); // control de camera
+
+
+      //Atmosphere
+
+      // LIGHT
+      var light = new THREE.PointLight(0xffffff);
+      light.position.set(0,250,0);
+      scene.add(light);
+      
+      var imagePrefix = "img/nebula-";
+      var directions  = ["xpos", "xneg", "ypos", "yneg", "zpos", "zneg"];
+      var imageSuffix = ".png";
+      var skyGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );	
+      
+      var imageURLs = [];
+      for (var i = 0; i < 6; i++)
+        imageURLs.push( imagePrefix + directions[i] + imageSuffix );
+      var textureCube = THREE.ImageUtils.loadTextureCube( imageURLs );
+      var shader = THREE.ShaderLib[ "cube" ];
+      shader.uniforms[ "tCube" ].value = textureCube;
+      var skyMaterial = new THREE.ShaderMaterial( {
+        fragmentShader: shader.fragmentShader,
+        vertexShader: shader.vertexShader,
+        uniforms: shader.uniforms,
+        depthWrite: false,
+        side: THREE.BackSide
+      } );
+      var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
+      scene.add( skyBox );
+
+      // add Sun
+	    const sunSphereGeom =  new THREE.SphereGeometry( 8, 32, 16 );
+      const sunTexture = THREE.ImageUtils.loadTexture( 'img/sun.jpg' );
+      const sunMaterial = new THREE.MeshBasicMaterial( { map: sunTexture } );
+      const sun = new THREE.Mesh( sunSphereGeom.clone(), sunMaterial );
+      const solarSystem = new THREE.Group();
+      solarSystem.add(sun);
+      scene.add( solarSystem );	
+
+      // add Earth
+	    const earthSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
+      const earthTexture = THREE.ImageUtils.loadTexture( 'img/earth.jpg' );
+      const earthMaterial = new THREE.MeshBasicMaterial( { map: earthTexture } );
+      const earth = new THREE.Mesh( earthSphereGeom.clone(), earthMaterial );
+      earth.position.x = earth.position.x + 48
+      let earthSystem = new THREE.Group();
+      earthSystem.add( earth );
+      solarSystem.add( earthSystem );
+
+			camera.position.z = 250;
+      camera.position.y = 120;
+
+      // NOTE: Animate solar system at 60fps.
+      const EARTH_YEAR = 2 * Math.PI * (1 / 60) * (1 / 60);
+      //const EARTH_DAY = 2 * Math.PI * (1 / 0.16) * (1 / 0.16);
+			const animate = function() {
 				requestAnimationFrame(animate);
+
+        sun.rotation.y += 0.001;
+        earthSystem.rotation.y += EARTH_YEAR;
+        //earth.rotation.y += EARTH_DAY;
+
+        controls.update(); // needed to move the camera
 
 				renderer.render(scene, camera);
 			};
