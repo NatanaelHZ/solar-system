@@ -49,26 +49,97 @@
       scene.add( skyBox );
 
       // add Sun
-	    const sunSphereGeom =  new THREE.SphereGeometry( 8, 32, 16 );
+	    const sunSphereGeom =  new THREE.SphereGeometry( 22, 32, 16 );
       const sunTexture = THREE.ImageUtils.loadTexture( 'img/sun.jpg' );
       const sunMaterial = new THREE.MeshBasicMaterial( { map: sunTexture } );
       const sun = new THREE.Mesh( sunSphereGeom.clone(), sunMaterial );
       const solarSystem = new THREE.Group();
       solarSystem.add(sun);
-      scene.add( solarSystem );	
+      scene.add( solarSystem );
+
+      // add Mercury
+	    const mercurySphereGeom =  new THREE.SphereGeometry( 2, 32, 16 );
+      const mercuryTexture = THREE.ImageUtils.loadTexture( 'img/mercury.jpg' );
+      const mercuryMaterial = new THREE.MeshBasicMaterial( { map: mercuryTexture } );
+      const mercury = new THREE.Mesh( mercurySphereGeom.clone(), mercuryMaterial );
+      mercury.position.x = mercury.position.x + 36;
+      let mercurySystem = new THREE.Group();
+      mercurySystem.add( mercury );
+      solarSystem.add( mercurySystem );
+
+      // add Venus
+	    const venusSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
+      const venusTexture = THREE.ImageUtils.loadTexture( 'img/venus.jpg' );
+      const venusMaterial = new THREE.MeshBasicMaterial( { map: venusTexture } );
+      const venus = new THREE.Mesh( venusSphereGeom.clone(), venusMaterial );
+      venus.position.x = venus.position.x + 52;
+      let venusSystem = new THREE.Group();
+      venusSystem.add( venus );
+      solarSystem.add( venusSystem );
 
       // add Earth
 	    const earthSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
       const earthTexture = THREE.ImageUtils.loadTexture( 'img/earth.jpg' );
       const earthMaterial = new THREE.MeshBasicMaterial( { map: earthTexture } );
       const earth = new THREE.Mesh( earthSphereGeom.clone(), earthMaterial );
-      earth.position.x = earth.position.x + 48
+      earth.position.x = earth.position.x + 68;
       let earthSystem = new THREE.Group();
       earthSystem.add( earth );
       solarSystem.add( earthSystem );
 
-			camera.position.z = 250;
+      // add mars
+	    const marsSphereGeom =  new THREE.SphereGeometry( 3, 32, 16 );
+      const marsTexture = THREE.ImageUtils.loadTexture( 'img/mars.jpg' );
+      const marsMaterial = new THREE.MeshBasicMaterial( { map: marsTexture } );
+      const mars = new THREE.Mesh( marsSphereGeom.clone(), marsMaterial );
+      mars.position.x = mars.position.x + 84;
+      let marsSystem = new THREE.Group();
+      marsSystem.add( mars );
+      solarSystem.add( marsSystem );
+
+      // add Jupiter
+	    const jupiterSphereGeom =  new THREE.SphereGeometry( 8, 32, 16 );
+      const jupiterTexture = THREE.ImageUtils.loadTexture( 'img/jupiter.jpg' );
+      const jupiterMaterial = new THREE.MeshBasicMaterial( { map: jupiterTexture } );
+      const jupiter = new THREE.Mesh( jupiterSphereGeom.clone(), jupiterMaterial );
+      jupiter.position.x = jupiter.position.x + 104;
+      let jupiterSystem = new THREE.Group();
+      jupiterSystem.add( jupiter );
+      solarSystem.add( jupiterSystem );
+
+      // add saturn
+	    const saturnSphereGeom =  new THREE.SphereGeometry( 6, 32, 16 );
+      const saturnTexture = THREE.ImageUtils.loadTexture( 'img/saturn.jpg' );
+      const saturnMaterial = new THREE.MeshBasicMaterial( { map: saturnTexture } );
+      const saturn = new THREE.Mesh( saturnSphereGeom.clone(), saturnMaterial );
+      saturn.position.x = saturn.position.x + 136;
+      let saturnSystem = new THREE.Group();
+      saturnSystem.add( saturn );
+      solarSystem.add( saturnSystem );
+
+      // add Uranus
+	    const uranusSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
+      const uranusTexture = THREE.ImageUtils.loadTexture( 'img/uranus.jpg' );
+      const uranusMaterial = new THREE.MeshBasicMaterial( { map: uranusTexture } );
+      const uranus = new THREE.Mesh( uranusSphereGeom.clone(), uranusMaterial );
+      uranus.position.x = uranus.position.x + 152;
+      let uranusSystem = new THREE.Group();
+      uranusSystem.add( uranus );
+      solarSystem.add( uranusSystem );
+
+      // add neptune
+	    const neptuneSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
+      const neptuneTexture = THREE.ImageUtils.loadTexture( 'img/neptune.jpg' );
+      const neptuneMaterial = new THREE.MeshBasicMaterial( { map: neptuneTexture } );
+      const neptune = new THREE.Mesh( neptuneSphereGeom.clone(), neptuneMaterial );
+      neptune.position.x = neptune.position.x + 170;
+      let neptuneSystem = new THREE.Group();
+      neptuneSystem.add( neptune );
+      solarSystem.add( neptuneSystem );
+
+			camera.position.z = 160;
       camera.position.y = 120;
+      camera.position.x = 120;
 
       // NOTE: Animate solar system at 60fps.
       const EARTH_YEAR = 2 * Math.PI * (1 / 60) * (1 / 60);
@@ -77,8 +148,15 @@
 				requestAnimationFrame(animate);
 
         sun.rotation.y += 0.001;
+        mercurySystem.rotation.y += EARTH_YEAR * 4;
+        venusSystem.rotation.y += EARTH_YEAR * 2;
         earthSystem.rotation.y += EARTH_YEAR;
         //earth.rotation.y += EARTH_DAY;
+        marsSystem.rotation.y += EARTH_YEAR * 0.5;
+        jupiterSystem.rotation.y += EARTH_YEAR * 0.2;
+        saturnSystem.rotation.y += EARTH_YEAR * 0.1;
+        uranusSystem.rotation.y += EARTH_YEAR * 0.08;
+        neptuneSystem.rotation.y += EARTH_YEAR * 0.04;
 
         controls.update(); // needed to move the camera
 
