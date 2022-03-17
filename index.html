@@ -18,14 +18,6 @@
 			document.body.appendChild(renderer.domElement);
 
       const controls = new THREE.OrbitControls( camera, renderer.domElement ); // control de camera
-
-
-      //Atmosphere
-
-      // LIGHT
-      var light = new THREE.PointLight(0xffffff);
-      light.position.set(0,250,0);
-      scene.add(light);
       
       var imagePrefix = "img/nebula-";
       var directions  = ["xpos", "xneg", "ypos", "yneg", "zpos", "zneg"];
@@ -54,6 +46,14 @@
       const sunMaterial = new THREE.MeshBasicMaterial( { map: sunTexture } );
       const sun = new THREE.Mesh( sunSphereGeom.clone(), sunMaterial );
       const solarSystem = new THREE.Group();
+
+      //Atmosphere
+      // LIGHT
+      /*
+      var light = new THREE.PointLight( 0xffffff );
+      sun.add(light);
+      */
+
       solarSystem.add(sun);
       scene.add( solarSystem );
 
@@ -67,6 +67,18 @@
       mercurySystem.add( mercury );
       solarSystem.add( mercurySystem );
 
+      const mercuryOrbitSize = 36;
+      const mercuryShape = new THREE.Shape();
+      mercuryShape.moveTo(mercuryOrbitSize, 0);
+      mercuryShape.absarc(0, 0, mercuryOrbitSize, 0, 2 * Math.PI, false);
+      const mercurySpacedPoints = mercuryShape.getSpacedPoints(128);
+      const mercuryOrbitGeom = new THREE.BufferGeometry().setFromPoints(mercurySpacedPoints);
+      mercuryOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const mercuryOrbitLine = new THREE.Line(mercuryOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(mercuryOrbitLine);
+
       // add Venus
 	    const venusSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
       const venusTexture = THREE.ImageUtils.loadTexture( 'img/venus.jpg' );
@@ -76,6 +88,18 @@
       let venusSystem = new THREE.Group();
       venusSystem.add( venus );
       solarSystem.add( venusSystem );
+
+      const venusOrbitSize = 52;
+      const venusShape = new THREE.Shape();
+      venusShape.moveTo(venusOrbitSize, 0);
+      venusShape.absarc(0, 0, venusOrbitSize, 0, 2 * Math.PI, false);
+      const venusSpacedPoints = venusShape.getSpacedPoints(128);
+      const venusOrbitGeom = new THREE.BufferGeometry().setFromPoints(venusSpacedPoints);
+      venusOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const venusOrbitLine = new THREE.Line(venusOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(venusOrbitLine);
 
       // add Earth
 	    const earthSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
@@ -87,6 +111,18 @@
       earthSystem.add( earth );
       solarSystem.add( earthSystem );
 
+      const earthOrbitSize = 68;
+      const earthShape = new THREE.Shape();
+      earthShape.moveTo(earthOrbitSize, 0);
+      earthShape.absarc(0, 0, earthOrbitSize, 0, 2 * Math.PI, false);
+      const earthSpacedPoints = earthShape.getSpacedPoints(128);
+      const earthOrbitGeom = new THREE.BufferGeometry().setFromPoints(earthSpacedPoints);
+      earthOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const earthOrbitLine = new THREE.Line(earthOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(earthOrbitLine);
+
       // add mars
 	    const marsSphereGeom =  new THREE.SphereGeometry( 3, 32, 16 );
       const marsTexture = THREE.ImageUtils.loadTexture( 'img/mars.jpg' );
@@ -96,6 +132,18 @@
       let marsSystem = new THREE.Group();
       marsSystem.add( mars );
       solarSystem.add( marsSystem );
+
+      const marsOrbitSize = 84;
+      const marsShape = new THREE.Shape();
+      marsShape.moveTo(marsOrbitSize, 0);
+      marsShape.absarc(0, 0, marsOrbitSize, 0, 2 * Math.PI, false);
+      const marsSpacedPoints = marsShape.getSpacedPoints(128);
+      const marsOrbitGeom = new THREE.BufferGeometry().setFromPoints(marsSpacedPoints);
+      marsOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const marsOrbitLine = new THREE.Line(marsOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(marsOrbitLine);
 
       // add Jupiter
 	    const jupiterSphereGeom =  new THREE.SphereGeometry( 8, 32, 16 );
@@ -107,35 +155,95 @@
       jupiterSystem.add( jupiter );
       solarSystem.add( jupiterSystem );
 
+      const jupiterOrbitSize = 104;
+      const jupiterShape = new THREE.Shape();
+      jupiterShape.moveTo(jupiterOrbitSize, 0);
+      jupiterShape.absarc(0, 0, jupiterOrbitSize, 0, 2 * Math.PI, false);
+      const jupiterSpacedPoints = jupiterShape.getSpacedPoints(128);
+      const jupiterOrbitGeom = new THREE.BufferGeometry().setFromPoints(jupiterSpacedPoints);
+      jupiterOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const jupiterOrbitLine = new THREE.Line(jupiterOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(jupiterOrbitLine);
+
       // add saturn
 	    const saturnSphereGeom =  new THREE.SphereGeometry( 6, 32, 16 );
       const saturnTexture = THREE.ImageUtils.loadTexture( 'img/saturn.jpg' );
       const saturnMaterial = new THREE.MeshBasicMaterial( { map: saturnTexture } );
       const saturn = new THREE.Mesh( saturnSphereGeom.clone(), saturnMaterial );
       saturn.position.x = saturn.position.x + 136;
+      const saturnRingGeom =  new THREE.RingGeometry( 8.8, 11.8, 32 );
+      const saturnRingTexture = THREE.ImageUtils.loadTexture( 'img/saturn_rings.png' );
+      const saturnRingMaterial = new THREE.MeshBasicMaterial( 
+        { 
+          map: saturnRingTexture,
+          side: THREE.doubleSide
+        } 
+      );
+      const saturnRing = new THREE.Mesh( saturnRingGeom, saturnRingMaterial );
+      
+      saturn.add( saturnRing );
+      saturnRing.rotation.x = 30;
       let saturnSystem = new THREE.Group();
       saturnSystem.add( saturn );
       solarSystem.add( saturnSystem );
+
+      const saturnOrbitSize = 136;
+      const saturnShape = new THREE.Shape();
+      saturnShape.moveTo(saturnOrbitSize, 0);
+      saturnShape.absarc(0, 0, saturnOrbitSize, 0, 2 * Math.PI, false);
+      const saturnSpacedPoints = saturnShape.getSpacedPoints(128);
+      const saturnOrbitGeom = new THREE.BufferGeometry().setFromPoints(saturnSpacedPoints);
+      saturnOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const saturnOrbitLine = new THREE.Line(saturnOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(saturnOrbitLine);
 
       // add Uranus
 	    const uranusSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
       const uranusTexture = THREE.ImageUtils.loadTexture( 'img/uranus.jpg' );
       const uranusMaterial = new THREE.MeshBasicMaterial( { map: uranusTexture } );
       const uranus = new THREE.Mesh( uranusSphereGeom.clone(), uranusMaterial );
-      uranus.position.x = uranus.position.x + 152;
+      uranus.position.x = uranus.position.x + 162;
       let uranusSystem = new THREE.Group();
       uranusSystem.add( uranus );
       solarSystem.add( uranusSystem );
+
+      const uranusOrbitSize = 162;
+      const uranusShape = new THREE.Shape();
+      uranusShape.moveTo(uranusOrbitSize, 0);
+      uranusShape.absarc(0, 0, uranusOrbitSize, 0, 2 * Math.PI, false);
+      const uranusSpacedPoints = uranusShape.getSpacedPoints(128);
+      const uranusOrbitGeom = new THREE.BufferGeometry().setFromPoints(uranusSpacedPoints);
+      uranusOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const uranusOrbitLine = new THREE.Line(uranusOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(uranusOrbitLine);
 
       // add neptune
 	    const neptuneSphereGeom =  new THREE.SphereGeometry( 4, 32, 16 );
       const neptuneTexture = THREE.ImageUtils.loadTexture( 'img/neptune.jpg' );
       const neptuneMaterial = new THREE.MeshBasicMaterial( { map: neptuneTexture } );
       const neptune = new THREE.Mesh( neptuneSphereGeom.clone(), neptuneMaterial );
-      neptune.position.x = neptune.position.x + 170;
+      neptune.position.x = neptune.position.x + 180;
       let neptuneSystem = new THREE.Group();
       neptuneSystem.add( neptune );
       solarSystem.add( neptuneSystem );
+
+      const neptuneOrbitSize = 180;
+      const neptuneShape = new THREE.Shape();
+      neptuneShape.moveTo(neptuneOrbitSize, 0);
+      neptuneShape.absarc(0, 0, neptuneOrbitSize, 0, 2 * Math.PI, false);
+      const neptuneSpacedPoints = neptuneShape.getSpacedPoints(128);
+      const neptuneOrbitGeom = new THREE.BufferGeometry().setFromPoints(neptuneSpacedPoints);
+      neptuneOrbitGeom.rotateX(THREE.Math.degToRad(-90));
+      const neptuneOrbitLine = new THREE.Line(neptuneOrbitGeom, new THREE.LineBasicMaterial({
+        color: "#A9CCE3",
+      }));
+      scene.add(neptuneOrbitLine);
 
 			camera.position.z = 160;
       camera.position.y = 120;
@@ -149,14 +257,14 @@
 
         sun.rotation.y += 0.001;
         mercurySystem.rotation.y += EARTH_YEAR * 4;
-        venusSystem.rotation.y += EARTH_YEAR * 2;
+        venusSystem.rotation.y += EARTH_YEAR * 3;
         earthSystem.rotation.y += EARTH_YEAR;
         //earth.rotation.y += EARTH_DAY;
-        marsSystem.rotation.y += EARTH_YEAR * 0.5;
-        jupiterSystem.rotation.y += EARTH_YEAR * 0.2;
-        saturnSystem.rotation.y += EARTH_YEAR * 0.1;
-        uranusSystem.rotation.y += EARTH_YEAR * 0.08;
-        neptuneSystem.rotation.y += EARTH_YEAR * 0.04;
+        marsSystem.rotation.y += EARTH_YEAR * 0.8;
+        jupiterSystem.rotation.y += EARTH_YEAR * 0.6;
+        saturnSystem.rotation.y += EARTH_YEAR * 0.4;
+        uranusSystem.rotation.y += EARTH_YEAR * 0.2;
+        neptuneSystem.rotation.y += EARTH_YEAR * 0.1;
 
         controls.update(); // needed to move the camera
 
