@@ -7,6 +7,9 @@
 		</style>
 	</head>
 	<body>
+    <div style="background-color: #0C090A; color: #16F529; padding: 5px;">
+      Computação gráfica | Ciência da Computação - 7ª fase | UFFS
+    </div>
 		<script src="../../libs/three.js-r110/build/three.min.js"></script>
     <script src="../../libs/three.js-r110/examples/js/controls/OrbitControls.js"></script> <!-- camera control-->
 		<script>
@@ -49,10 +52,10 @@
 
       //Atmosphere
       // LIGHT
-      /*
+      
       var light = new THREE.PointLight( 0xffffff );
       sun.add(light);
-      */
+      
 
       solarSystem.add(sun);
       scene.add( solarSystem );
@@ -251,7 +254,7 @@
 
       // NOTE: Animate solar system at 60fps.
       const EARTH_YEAR = 2 * Math.PI * (1 / 60) * (1 / 60);
-      //const EARTH_DAY = 2 * Math.PI * (1 / 0.16) * (1 / 0.16);
+      const EARTH_DAY = 2 * Math.PI * (1 / 0.16) * (1 / 0.16);
 			const animate = function() {
 				requestAnimationFrame(animate);
 
