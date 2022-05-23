@@ -1,7 +1,8 @@
-# solar-system
-Solar System with Three JS
+Projeto: Sistema Solar 3D
 
-Computação gráfica | Ciência da Computação - 7ª fase | UFFS
+Matéria: Computação Gráfica (7ª fase)
+
+Ciência da Computação - Universidade Federal da Fronteira Sul
 
 Solar Textures from:
-https://www.solarsystemscope.com/textures/
+https://www.solarsystemscope.com/textures
